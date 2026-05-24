@@ -26,7 +26,7 @@
       meta: { label: "Name" },
       cell: ({ row }) =>
         renderComponent(Anchor, {
-          href: resolve("/(authed)/shelters/[id]", row.original),
+          href: resolve("/(authed)/app/shelters/[id]", row.original),
           content: row.original.name,
         }),
     }),
@@ -80,13 +80,13 @@
       {
         title: "View shelter",
         icon: "lucide/eye",
-        href: resolve("/(authed)/shelters/[id]", row),
+        href: resolve("/(authed)/app/shelters/[id]", row),
       },
 
       {
         title: "Edit shelter",
         icon: "lucide/pencil",
-        href: resolve("/(authed)/shelters/[id]/edit", row),
+        href: resolve("/(authed)/app/shelters/[id]/edit", row),
       },
 
       {

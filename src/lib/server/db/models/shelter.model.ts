@@ -16,7 +16,7 @@ export const ShelterTable = pgTable(
       .references(() => OrganizationTable.id, { onDelete: "cascade" }),
 
     name: varchar({ length: 255 }).notNull(),
-    slug: varchar({ length: 255 }).notNull(),
+    slug: varchar({ length: 255 }).notNull().unique(),
     description: text(),
 
     contact_email: varchar({ length: 255 }),

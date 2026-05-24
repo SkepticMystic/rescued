@@ -7,7 +7,7 @@ export const load = (async () => {
   const session = await get_session();
 
   if (session.ok && session.data.user.emailVerified) {
-    redirect(302, "/home" satisfies ResolvedPathname);
+    redirect(302, "/app/home" satisfies ResolvedPathname);
   }
 
   return {};

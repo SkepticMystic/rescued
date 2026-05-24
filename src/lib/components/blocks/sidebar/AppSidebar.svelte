@@ -31,29 +31,29 @@
       label: "Shelter",
       items: [
         {
-          href: "/home",
+          href: "/app/home",
           label: "Home",
           icon: "lucide/home",
         },
         {
-          href: "/shelters",
+          href: "/app/shelters",
           label: "Shelters",
           icon: "lucide/building-2",
 
           action: {
             kind: "href",
-            href: "/shelters#create",
+            href: "/app/shelters#create",
             icon: "lucide/plus",
           },
         },
         {
-          href: "/animals",
+          href: "/app/animals",
           label: "Animals",
           icon: "lucide/paw-print",
 
           action: {
             kind: "href",
-            href: "/animals#create",
+            href: "/app/animals#create",
             icon: "lucide/plus",
           },
         },

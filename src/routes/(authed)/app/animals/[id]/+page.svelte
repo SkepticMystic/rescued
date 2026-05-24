@@ -26,13 +26,13 @@
 <article>
   <Header
     title={display_name}
-    back={{ href: resolve("/(authed)/animals") }}
+    back={{ href: resolve("/(authed)/app/animals") }}
   >
     {#snippet actions()}
       <Button
         variant="outline"
         icon="lucide/pencil"
-        href={resolve("/(authed)/animals/[id]/edit", animal)}
+        href={resolve("/(authed)/app/animals/[id]/edit", animal)}
       >
         Edit
       </Button>
@@ -44,7 +44,7 @@
           AnimalClient.delete(animal.id, {
             prompt: display_name,
             suc_msg: "Animal deleted",
-            on_success: () => goto(resolve("/(authed)/animals")),
+            on_success: () => goto(resolve("/(authed)/app/animals")),
           })}
       >
         Delete
@@ -65,7 +65,7 @@
     />
     <Anchor
       class="text-sm"
-      href={resolve("/(authed)/shelters/[id]", animal.shelter)}
+      href={resolve("/(authed)/app/shelters/[id]", animal.shelter)}
     >
       at {animal.shelter.name}
     </Anchor>

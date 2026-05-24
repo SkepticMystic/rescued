@@ -32,7 +32,7 @@
 
       cell: ({ row }) =>
         renderComponent(Anchor, {
-          href: resolve("/(authed)/animals/[id]", row.original),
+          href: resolve("/(authed)/app/animals/[id]", row.original),
           content: row.original.name ?? `?`,
         }),
     }),
@@ -90,13 +90,13 @@
       {
         title: "View animal",
         icon: "lucide/eye",
-        href: resolve("/(authed)/animals/[id]", row),
+        href: resolve("/(authed)/app/animals/[id]", row),
       },
 
       {
         title: "Edit animal",
         icon: "lucide/pencil",
-        href: resolve("/(authed)/animals/[id]/edit", row),
+        href: resolve("/(authed)/app/animals/[id]/edit", row),
       },
 
       {

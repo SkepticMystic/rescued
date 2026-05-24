@@ -12,7 +12,7 @@ export const load = (async (event) => {
   if (!session) {
     redirect(302, App.url("/auth/signup"));
   } else if (session.session.activeOrganizationId) {
-    redirect(302, App.url("/home"));
+    redirect(302, App.url("/app/home"));
   }
 
   // Has session but no org → show onboarding form

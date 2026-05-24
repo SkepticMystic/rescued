@@ -58,7 +58,7 @@
     >
       <!-- Brand Section -->
       <div class="lg:col-span-1">
-        <a href="/home">
+        <a href="/app/home">
           <div class="flex items-center gap-2">
             <Logo />
             <h3>{APP.NAME}</h3>

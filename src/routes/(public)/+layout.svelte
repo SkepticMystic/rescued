@@ -21,18 +21,18 @@
       </Button>
 
       <ButtonGroup>
-        {#if session.current?.user}
-          <ButtonGroup>
-            <Button href={resolve("/app/home")}>Home</Button>
-          </ButtonGroup>
-        {:else}
-          <ButtonGroup>
-            <Button href={resolve("/auth/signup")}>Signup</Button>
-          </ButtonGroup>
+        <Button
+          href={resolve("/(public)/shelters")}
+          variant="ghost"
+        >
+          Shelters
+        </Button>
 
-          <ButtonGroup>
-            <Button href={resolve("/auth/signin")}>Login</Button>
-          </ButtonGroup>
+        {#if session.current?.user}
+          <Button href={resolve("/app/home")}>Home</Button>
+        {:else}
+          <Button href={resolve("/auth/signin")}>Login</Button>
+          <Button href={resolve("/auth/signup")}>Signup</Button>
         {/if}
       </ButtonGroup>
     </nav>

@@ -26,13 +26,13 @@
   <Header
     title={shelter.name}
     description={shelter.address}
-    back={{ href: resolve("/(authed)/shelters") }}
+    back={{ href: resolve("/(authed)/app/shelters") }}
   >
     {#snippet actions()}
       <Button
         variant="outline"
         icon="lucide/pencil"
-        href={resolve("/(authed)/shelters/[id]/edit", shelter)}
+        href={resolve("/(authed)/app/shelters/[id]/edit", shelter)}
       >
         Edit
       </Button>
@@ -44,7 +44,7 @@
           ShelterClient.delete(shelter.id, {
             prompt: shelter.name,
             suc_msg: "Shelter deleted",
-            on_success: () => goto(resolve("/(authed)/shelters")),
+            on_success: () => goto(resolve("/(authed)/app/shelters")),
           })}
       >
         Delete
@@ -118,7 +118,7 @@
           <li>
             <Anchor
               class="flex items-center justify-between gap-3 p-3 no-underline! hover:bg-accent"
-              href={resolve("/(authed)/animals/[id]", animal)}
+              href={resolve("/(authed)/app/animals/[id]", animal)}
             >
               <div class="flex flex-col">
                 <span class="font-medium">{animal.name ?? animal.short_id}</span

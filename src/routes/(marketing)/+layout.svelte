@@ -3,9 +3,11 @@
   import ButtonGroup from "$lib/components/ui/button-group/button-group.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
   import { APP } from "$lib/const/app.const";
-  import { user } from "$lib/stores/session.store";
+  import { get_session_remote } from "$lib/remote/auth/session.remote";
 
   let { children } = $props();
+
+  const session = $derived(get_session_remote());
 </script>
 
 <div class="flex min-h-screen w-full flex-col">
@@ -19,7 +21,7 @@
       </Button>
 
       <ButtonGroup>
-        {#if $user}
+        {#if session.current?.user}
           <ButtonGroup>
             <Button href={resolve("/home")}>Home</Button>
           </ButtonGroup>

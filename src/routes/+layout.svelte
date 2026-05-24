@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { browser, dev } from "$app/environment";
+  import { dev } from "$app/environment";
   import { page } from "$app/state";
   import {
     PUBLIC_UMAMI_BASE_URL,
@@ -8,33 +8,28 @@
   import SEO from "$lib/components/blocks/head/SEO.svelte";
   import FlashAlert from "$lib/components/ui/alert/FlashAlert.svelte";
   import Sonner from "$lib/components/ui/sonner/sonner.svelte";
-  import { session } from "$lib/stores/session.store";
+  import { get_session_remote } from "$lib/remote/auth/session.remote";
   import { ModeWatcher } from "mode-watcher";
+  import { onMount } from "svelte";
   import { getFlash } from "sveltekit-flash-message";
   import "./layout.css";
 
   let { children } = $props();
 
-  // NOTE: Currently this listener is _just_ for umami analytics
-  // We unsub as soon as they're identified
-  const session_listener = session.listen(($session) => {
-    if ($session.isRefetching || $session.isPending) {
-      return;
-    } else {
-      console.log("$session loaded", $session.data);
-
-      if (browser && window.umami && $session.data?.user) {
-        window.umami.identify($session.data.user.id, {
-          name: $session.data.user.name,
-          email: $session.data.user.email,
-          session_id: $session.data.session.id,
-          ip_address: $session.data.session.ipAddress,
-          user_agent: $session.data.session.userAgent,
+  onMount(() => {
+    get_session_remote().then((s) => {
+      if (s && window.umami) {
+        window.umami.identify(s.user.id, {
+          name: s.user.name,
+          email: s.user.email,
+          session_id: s.session.id,
+          ip_address: s.session.ipAddress,
+          user_agent: s.session.userAgent,
         });
-
-        session_listener();
       }
-    }
+
+      return;
+    });
   });
 
   const flash = getFlash(page);

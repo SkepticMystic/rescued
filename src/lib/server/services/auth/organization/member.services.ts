@@ -1,5 +1,6 @@
 import { getRequestEvent } from "$app/server";
 import { auth, is_ba_error_code } from "$lib/auth";
+import type { IOrganization } from "$lib/const/auth/organization.const";
 import { ERROR } from "$lib/const/error.const";
 import { Log } from "$lib/utils/logger.util";
 import { result } from "$lib/utils/result.util";
@@ -48,6 +49,70 @@ const remove = async (member_id: string) => {
   }
 };
 
+const leave = async (org_id: string) => {
+  const l = log.child({ method: "leave" });
+
+  try {
+    const res = await auth.api.leaveOrganization({
+      body: { organizationId: org_id },
+      headers: getRequestEvent().request.headers,
+    });
+
+    return result.suc(res);
+  } catch (error) {
+    if (error instanceof APIError) {
+      l.info(error.body, "error better-auth");
+
+      if (is_ba_error_code(error, "YOU_CANNOT_LEAVE_THE_ORGANIZATION_AS_THE_ONLY_OWNER")) {
+        return result.from_ba_error(error);
+      } else {
+        captureException(error);
+
+        return result.from_ba_error(error);
+      }
+    } else {
+      l.error(error, "error unknown");
+
+      captureException(error);
+
+      return result.err(ERROR.INTERNAL_SERVER_ERROR);
+    }
+  }
+};
+
+const update_role = async (input: {
+  memberId: string;
+  role: IOrganization.RoleId;
+  organizationId?: string;
+}) => {
+  const l = log.child({ method: "update_role" });
+
+  try {
+    const res = await auth.api.updateMemberRole({
+      body: input,
+      headers: getRequestEvent().request.headers,
+    });
+
+    return result.suc(res);
+  } catch (error) {
+    if (error instanceof APIError) {
+      l.info(error.body, "error better-auth");
+
+      captureException(error);
+
+      return result.from_ba_error(error);
+    } else {
+      l.error(error, "error unknown");
+
+      captureException(error);
+
+      return result.err(ERROR.INTERNAL_SERVER_ERROR);
+    }
+  }
+};
+
 export const MemberService = {
   remove,
+  leave,
+  update_role,
 };

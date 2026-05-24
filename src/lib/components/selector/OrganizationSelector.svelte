@@ -4,8 +4,9 @@
   import Field from "$lib/components/ui/field/Field.svelte";
   import Loading from "$lib/components/ui/loading/Loading.svelte";
   import NativeSelect from "$lib/components/ui/native-select/native-select.svelte";
-  import { session } from "$lib/stores/session.store";
+  import { get_session_remote } from "$lib/remote/auth/session.remote";
 
+  const session = $derived(get_session_remote());
   const organizations = BetterAuthClient.useListOrganizations();
 </script>
 
@@ -34,7 +35,7 @@
           label: `${org.name} (${org.slug})`,
         }))}
         bind:value={
-          () => $session.data?.session.activeOrganizationId ?? undefined,
+          () => session.current?.session.activeOrganizationId ?? undefined,
           (v) => OrganizationClient.set_active(v)
         }
       />

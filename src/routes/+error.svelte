@@ -9,15 +9,27 @@
   import Input from "$lib/components/ui/input/input.svelte";
   import Modal from "$lib/components/ui/modal/modal.svelte";
   import Textarea from "$lib/components/ui/textarea/textarea.svelte";
-  import { user } from "$lib/stores/session.store";
+  import { get_session_remote } from "$lib/remote/auth/session.remote";
   import { captureFeedback } from "@sentry/sveltekit";
+  import { onMount } from "svelte";
   import { toast } from "svelte-sonner";
   import { preventDefault } from "svelte/legacy";
 
   let form = $state({
-    name: $user?.name ?? "",
-    email: $user?.email ?? "",
+    name: "",
+    email: "",
     message: "",
+  });
+
+  onMount(() => {
+    get_session_remote().then((s) => {
+      if (s) {
+        form.name = s.user.name;
+        form.email = s.user.email;
+      }
+
+      return;
+    });
   });
 </script>
 

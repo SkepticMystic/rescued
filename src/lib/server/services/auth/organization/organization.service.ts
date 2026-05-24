@@ -65,6 +65,43 @@ const create = async (
   }
 };
 
+const set_active = async (org_id: string | null) => {
+  const l = log.child({ method: "set_active" });
+
+  try {
+    // The session.update databaseHook in auth.ts derives org_id, member_id,
+    // member_role from activeOrganizationId, so a single setActiveOrganization
+    // call updates everything coherently and re-bakes the session cookie.
+    const res = await auth.api.setActiveOrganization({
+      body: { organizationId: org_id },
+      headers: getRequestEvent().request.headers,
+    });
+
+    if (!res && org_id !== null) {
+      l.warn("error no response");
+
+      return result.err({
+        ...ERROR.INTERNAL_SERVER_ERROR,
+        message: "Failed to set active organization",
+      });
+    }
+
+    return result.suc(res);
+  } catch (error) {
+    if (error instanceof APIError) {
+      l.info(error.body, "error better-auth");
+
+      captureException(error);
+
+      return result.from_ba_error(error);
+    } else {
+      l.error(error, "error unknown");
+      captureException(error);
+      return result.err(ERROR.INTERNAL_SERVER_ERROR);
+    }
+  }
+};
+
 const owner_delete = async (org_id: string) => {
   const l = log.child({ method: "owner_delete" });
 
@@ -129,6 +166,7 @@ const admin_delete = async (org_id: string) => {
 
 export const OrganizationService = {
   create,
+  set_active,
   owner_delete,
   admin_delete,
 };

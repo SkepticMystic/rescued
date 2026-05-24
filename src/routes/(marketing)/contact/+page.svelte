@@ -6,34 +6,24 @@
   import Field from "$lib/components/ui/field/Field.svelte";
   import Input from "$lib/components/ui/input/input.svelte";
   import Textarea from "$lib/components/ui/textarea/textarea.svelte";
+  import { get_session_remote } from "$lib/remote/auth/session.remote";
   import { contact_us_remote } from "$lib/remote/contact/contact.remote";
-  import { session } from "$lib/stores/session.store";
-  import { onDestroy } from "svelte";
+  import { onMount } from "svelte";
   import { toast } from "svelte-sonner";
 
   const form = contact_us_remote;
 
   let reset_captcha = $state<() => void>();
 
-  const session_listener = session.subscribe(($session) => {
-    if ($session.data?.user) {
-      form.fields.name.set($session.data.user.name);
-      form.fields.email.set($session.data.user.email);
-
-      try {
-        session_listener();
-      } catch (error) {
-        console.log("session_listener.error", error);
+  onMount(() => {
+    get_session_remote().then((s) => {
+      if (s) {
+        form.fields.name.set(s.user.name);
+        form.fields.email.set(s.user.email);
       }
-    }
-  });
 
-  onDestroy(() => {
-    try {
-      session_listener();
-    } catch (error) {
-      console.log("session_listener.error", error);
-    }
+      return;
+    });
   });
 </script>
 

@@ -30,6 +30,15 @@ export const create_organization_remote = form(OrganizationSchema.create, async 
   // redirect(302, App.url("/organization"));
 });
 
+export const set_active_organization_remote = command(z.uuid().nullable(), async (org_id) => {
+  const session = await get_session();
+  if (!session.ok) return session;
+
+  const res = await OrganizationService.set_active(org_id);
+
+  return res;
+});
+
 export const owner_delete_organization_remote = command(
   z.uuid(), //
   async (org_id) => {

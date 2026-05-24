@@ -17,7 +17,9 @@
   import SidebarMenuItem from "$lib/components/ui/sidebar/sidebar-menu-item.svelte";
   import SidebarMenu from "$lib/components/ui/sidebar/sidebar-menu.svelte";
   import { get_active_subscription_remote } from "$lib/remote/subscription/subscription.remote";
-  import { user } from "$lib/stores/session.store";
+  import { get_session_remote } from "$lib/remote/auth/session.remote";
+
+  const session = $derived(get_session_remote());
 
   const sidebar = useSidebar();
 </script>
@@ -37,18 +39,18 @@
           >
             <AvatarRoot class="size-8 rounded-md">
               <AvatarImage
-                src={$user?.image}
-                alt={$user?.name}
+                src={session.current?.user.image}
+                alt={session.current?.user.name}
               />
 
               <AvatarFallback class="rounded-md">
-                {$user?.name.at(0) ?? ""}
+                {session.current?.user.name.at(0) ?? ""}
               </AvatarFallback>
             </AvatarRoot>
 
             <div class="grid flex-1 text-start text-sm/tight">
-              <span class="truncate font-medium">{$user?.name}</span>
-              <span class="truncate text-xs">{$user?.email}</span>
+              <span class="truncate font-medium">{session.current?.user.name}</span>
+              <span class="truncate text-xs">{session.current?.user.email}</span>
             </div>
 
             <Icon
@@ -75,18 +77,18 @@
           >
             <AvatarRoot class="size-8 rounded-md">
               <AvatarImage
-                src={$user?.image}
-                alt={$user?.name}
+                src={session.current?.user.image}
+                alt={session.current?.user.name}
               />
 
               <AvatarFallback class="rounded-md">
-                {$user?.name.at(0) ?? ""}
+                {session.current?.user.name.at(0) ?? ""}
               </AvatarFallback>
             </AvatarRoot>
 
             <div class="grid flex-1 text-start text-sm/tight">
-              <span class="truncate font-medium">{$user?.name}</span>
-              <span class="truncate text-xs">{$user?.email}</span>
+              <span class="truncate font-medium">{session.current?.user.name}</span>
+              <span class="truncate text-xs">{session.current?.user.email}</span>
             </div>
           </a>
         </DropdownMenuLabel>

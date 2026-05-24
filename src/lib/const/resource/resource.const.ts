@@ -1,3 +1,3 @@
 export const RESOURCE = {
-  KINDS: ["user", "organization"] as const,
+  KINDS: ["user", "organization", "animal"] as const,
 };

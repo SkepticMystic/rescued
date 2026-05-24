@@ -53,6 +53,7 @@
 
 <form
   class="space-y-3"
+  enctype="multipart/form-data"
   {...form.enhance(async ({ submit }) => {
     await submit();
 
@@ -174,6 +175,21 @@
       />
     {/snippet}
   </Field>
+
+  {#if props.mode === "create"}
+    <Field
+      label="Photo"
+      field={form.fields.image}
+    >
+      {#snippet input({ props, field })}
+        <Input
+          {...props}
+          {...field!.as("file")}
+          accept="image/*"
+        />
+      {/snippet}
+    </Field>
+  {/if}
 
   <FormButton
     {form}

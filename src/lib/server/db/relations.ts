@@ -79,5 +79,19 @@ export const relations = defineRelations(schema, (r) => ({
       to: r.organization.id,
       optional: false,
     }),
+
+    images: r.many.image({
+      from: r.animal.id,
+      to: r.image.resource_id,
+    }),
+  },
+
+  // === Images ===
+  image: {
+    animal: r.one.animal({
+      from: r.image.resource_id,
+      to: r.animal.id,
+      optional: true,
+    }),
   },
 }));

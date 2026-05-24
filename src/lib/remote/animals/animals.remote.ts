@@ -6,7 +6,9 @@ import { invalid } from "@sveltejs/kit";
 import { z } from "zod";
 
 export const create_animal_remote = form(
-  AnimalSchema.insert, //
+  AnimalSchema.insert.extend({
+    image: z.file().optional(),
+  }),
   async (input): Promise<App.Result<Animal>> => {
     const session = await get_session();
     if (!session.ok) return session;
@@ -21,7 +23,9 @@ export const create_animal_remote = form(
 );
 
 export const update_animal_remote = form(
-  AnimalSchema.update, //
+  AnimalSchema.update.extend({
+    image: z.file().optional(),
+  }),
   async (input) => {
     const session = await get_session();
     if (!session.ok) return session;

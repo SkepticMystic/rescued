@@ -27,6 +27,11 @@ export const load = (async ({ params }) => {
         date_of_birth: true,
         description: true,
       },
+      with: {
+        images: {
+          columns: { id: true, url: true, thumbhash: true },
+        },
+      },
     }),
   );
 

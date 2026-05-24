@@ -23,7 +23,7 @@ This project uses **pnpm** (v10.23.0) as the package manager. Always use `pnpm` 
 
 ### Type Checking & Linting
 
-- `pnpm check` - Run svelte-check for type checking
+- `pnpm check:slow` - Run svelte-check for type checking
 - `pnpm lint` - Run oxlint (type-aware), eslint, and prettier checks
 - `pnpm format` - Format code with prettier
 
@@ -46,7 +46,6 @@ Database commands use a custom script wrapper (`scripts/drizzle/kit.script.ts`) 
 ### Authentication Architecture
 
 - **Better-Auth** integration with custom configuration in `src/lib/auth.ts`
-- Uses **Effect** library for dependency injection (email service)
 - Split between client (`auth-client.ts`) and server (`auth/server.ts`)
 - Database session storage disabled in favor of cookie caching
 - Custom session fields for organization membership (`member_id`, `member_role`)
@@ -99,56 +98,12 @@ Remote functions (in `src/lib/remote/`) use SvelteKit's experimental feature to 
 - Stores in `src/lib/stores/` for shared state (organizations, session)
 - Better-Auth client provides session management
 
-### Service Pattern
-
-- **Email Service** (`src/lib/services/email.service.ts`):
-  - Define service interface using `Context.Tag`
-  - Implement `EmailLive` (Resend) and `EmailTest` (console log) versions
-  - Inject at runtime: `Effect.provideService(EmailService, dev ? EmailTest : EmailLive)`
-  - Used in auth configuration for verification emails, password resets, org invites
-
 ### Logging
 
 - Custom logging utility using **Pino** (`src/lib/utils/logger.util`)
 - Configured with pretty-printing in development
 - Use `Log.info()`, `Log.error()`, `Log.debug()`, etc. throughout codebase
 - Log level controlled by `LOG_LEVEL` environment variable
-
-## Linting Configuration
-
-### Oxlint
-
-Primary linter with type-aware checking configured in `.oxlintrc.json`:
-
-- TypeScript and Unicorn plugins enabled
-- Correctness category disabled (relies on TypeScript compiler)
-- Strict unused variable rules with `_` prefix for intentionally unused vars
-- Special rules for Svelte files (no-inner-declarations, no-self-assign disabled)
-
-### ESLint
-
-Secondary linter in `eslint.config.js` - runs after oxlint in the lint pipeline.
-
-## Environment Setup
-
-1. Ensure **Node 22** is installed (required by package.json engines)
-2. Install **pnpm 10.23.0** (specified in package.json packageManager)
-3. Create `.env` file based on `.env.example`
-4. Set up PostgreSQL database (Neon recommended) with development branch
-5. Add `DATABASE_URL` to `.env`
-6. Optional: Configure Redis with `REDIS_URL` (for Better-Auth rate limiting and caching)
-7. Run `pnpm install` to install dependencies
-8. Run `pnpm db:push` to create tables
-9. Configure auth provider credentials as needed (Google, Pocket ID)
-10. Configure email service (Resend) with `RESEND_API_KEY` and `EMAIL_FROM`
-
-## Deployment (Vercel)
-
-1. Connect repository to Vercel
-2. Set environment variables in Vercel dashboard (see `.env.example`)
-3. Create `.env.production` for production database URL (used by `pnpm db:generate` and `pnpm db:check`)
-4. Edit build command to: `vite build && pnpm db:migrate`
-5. Deploy
 
 ## Key Patterns and Conventions
 
@@ -166,14 +121,14 @@ Secondary linter in `eslint.config.js` - runs after oxlint in the lint pipeline.
 
 - All tables use UUID primary keys via `Schema.id()` from `index.schema.ts`
 - Timestamps use `Schema.timestamps` helper (createdAt, updatedAt)
-- Database columns in `snake_case`, TypeScript in `camelCase` (Drizzle handles conversion)
+- Database columns in `snake_case`
 - Never use BetterAuth's nanoid generation; custom UUID generation is configured
 
 ### Error Handling
 
 - Use `result.err({ message })` utility for consistent error responses
 - Log errors with context: `Log.error(error, "context_identifier")`
-- Better-Auth API errors are instances of `APIError` with `body.code` for error types
+- Use sentry captreException
 - Custom error codes defined in `$lib/auth-client` as `$ERROR_CODES`
 
 <!--VITE PLUS START-->
@@ -187,7 +142,7 @@ Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.de
 ## Review Checklist
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
-- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
+- [ ] Run `vp lint`, `pnpm check:slow` and `vp test` to format, lint, type check and test changes.
 - [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
 
 <!--VITE PLUS END-->

@@ -58,7 +58,7 @@ resource "vercel_project_environment_variable" "R2_BUCKET_NAME" {
   key       = "R2_BUCKET_NAME"
   value     = cloudflare_r2_bucket.main.name
   target    = local.prod_only
-  sensitive = true
+  sensitive = false
 }
 
 resource "vercel_project_environment_variable" "R2_BUCKET_NAME_DEV" {
@@ -78,7 +78,7 @@ resource "vercel_project_environment_variable" "PUBLIC_BASE_URL" {
   key       = "PUBLIC_BASE_URL"
   value     = "https://${var.app_domain}"
   target    = local.prod_only
-  sensitive = true
+  sensitive = false
 }
 
 resource "vercel_project_environment_variable" "PUBLIC_BASE_URL_DEV" {
@@ -158,7 +158,7 @@ resource "vercel_project_environment_variable" "LOG_LEVEL" {
   key       = "LOG_LEVEL"
   value     = var.log_level
   target    = local.prod_only
-  sensitive = true
+  sensitive = false
 }
 
 resource "vercel_project_environment_variable" "LOG_LEVEL_DEV" {
@@ -178,7 +178,7 @@ resource "vercel_project_environment_variable" "NO_COLOR" {
   key       = "NO_COLOR"
   value     = var.no_color
   target    = local.prod_only
-  sensitive = true
+  sensitive = false
 }
 
 resource "vercel_project_environment_variable" "NO_COLOR_DEV" {
@@ -198,7 +198,7 @@ resource "vercel_project_environment_variable" "DATABASE_URL" {
   key    = "DATABASE_URL"
   value  = neon_project.main.connection_uri
   target = local.prod_only
-  # sensitive = true
+  # sensitive = false
   sensitive = false
 }
 
@@ -239,7 +239,7 @@ resource "vercel_project_environment_variable" "R2_ACCESS_KEY_ID" {
   key    = "R2_ACCESS_KEY_ID"
   value  = module.r2_api_token_prod.id
   target = local.prod_only
-  # sensitive = true
+  # sensitive = false
   sensitive = false
 }
 
@@ -250,7 +250,7 @@ resource "vercel_project_environment_variable" "R2_SECRET_ACCESS_KEY" {
   key    = "R2_SECRET_ACCESS_KEY"
   value  = module.r2_api_token_prod.secret
   target = local.prod_only
-  # sensitive = true
+  # sensitive = false
   sensitive = false
 }
 
@@ -281,7 +281,7 @@ resource "vercel_project_environment_variable" "BETTER_AUTH_SECRET" {
   key    = "BETTER_AUTH_SECRET"
   value  = var.better_auth_secret
   target = local.prod_only
-  # sensitive = true
+  # sensitive = false
   sensitive = false
 }
 
@@ -342,7 +342,7 @@ resource "vercel_project_environment_variable" "PAYSTACK_SECRET_KEY" {
   key    = "PAYSTACK_SECRET_KEY"
   value  = var.paystack_secret_key
   target = local.prod_only
-  # sensitive = true
+  # sensitive = false
   sensitive = false
 }
 
@@ -395,6 +395,16 @@ resource "vercel_project_environment_variable" "OPENAI_API_KEY" {
   key    = "OPENAI_API_KEY"
   value  = var.openai_api_key
   target = local.all_envs
-  # sensitive = true
+  # sensitive = false
+  sensitive = false
+}
+
+resource "vercel_project_environment_variable" "PUBLIC_GOOGLE_MAPS_API_KEY" {
+  team_id    = var.vercel_team_id
+  project_id = vercel_project.app.id
+
+  key       = "PUBLIC_GOOGLE_MAPS_API_KEY"
+  value     = var.google_maps_api_key
+  target    = local.all_envs
   sensitive = false
 }

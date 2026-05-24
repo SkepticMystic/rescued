@@ -1,9 +1,10 @@
+import { dev } from "$app/environment";
 import {
   CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET,
   CLOUDINARY_CLOUD_NAME,
-  CLOUDINARY_UPLOAD_PRESET,
 } from "$env/static/private";
+import { APP } from "$lib/const/app.const";
 import { ERROR } from "$lib/const/error.const";
 import type { IMAGE_HOSTING } from "$lib/const/image/image_hosting.const";
 import type { Result } from "$lib/interfaces/result.type";
@@ -40,7 +41,7 @@ export const ImageHostingService = {
               {
                 resource_type: "image",
                 discard_original_filename: true,
-                upload_preset: CLOUDINARY_UPLOAD_PRESET,
+                upload_preset: APP.ID + (dev ? ":dev" : ":prod"),
                 // NOTE: We don't apply any transforms at upload time
                 // Rather keep the original, then transform in Picture.svelte
               },

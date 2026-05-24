@@ -53,3 +53,4 @@ coverage/
 # Logs / cache
 *.log
 .cache/
+.env*

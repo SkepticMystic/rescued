@@ -102,6 +102,13 @@ variable "google_client_secret" {
   default     = ""
 }
 
+variable "google_maps_api_key" {
+  description = "Google Maps API key for map rendering in the app"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
 variable "pocketid_client_id" {
   description = "Pocket ID OAuth client ID"
   type        = string

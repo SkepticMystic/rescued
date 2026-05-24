@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { resolve } from "$app/paths";
   import { AnimalClient } from "$lib/clients/animals.client";
   import AnimalForm from "$lib/components/form/animal/AnimalForm.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
@@ -63,14 +64,6 @@
         {#snippet children({ close })}
           <AnimalForm
             mode="create"
-            initial={{
-              name: "",
-              species: "dog",
-              sex: "unknown",
-              status: "intake",
-              date_of_birth: undefined,
-              description: "",
-            }}
             on_success={(animal) => {
               animals = [animal, ...animals];
               close();
@@ -88,6 +81,12 @@
       sorting: [{ id: "createdAt", desc: true }],
     }}
     actions={(row) => [
+      {
+        title: "Edit animal",
+        icon: "lucide/pencil",
+        href: resolve("/(authed)/animals/[id]/edit", row),
+      },
+
       {
         title: "Delete animal",
         icon: "lucide/trash-2",

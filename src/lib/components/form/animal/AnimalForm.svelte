@@ -16,10 +16,19 @@
   import { toast } from "svelte-sonner";
   import FormButton from "../FormButton.svelte";
 
+  const CREATE_DEFAULTS = {
+    name: "",
+    species: "dog",
+    sex: "unknown",
+    status: "intake",
+    date_of_birth: undefined,
+    description: "",
+  } satisfies AnimalSchema.InsertIn;
+
   let props: (
     | {
         mode: "create";
-        initial: AnimalSchema.InsertIn;
+        initial?: Partial<AnimalSchema.InsertIn>;
       }
     | {
         mode: "update";
@@ -32,7 +41,10 @@
   if (props.mode === "update") {
     FormUtil.init(update_animal_remote, () => props.initial);
   } else {
-    FormUtil.init(create_animal_remote, () => props.initial);
+    FormUtil.init(create_animal_remote, () => ({
+      ...CREATE_DEFAULTS,
+      ...props.initial,
+    }));
   }
 
   const form =

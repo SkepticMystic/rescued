@@ -25,6 +25,8 @@
         if (available) {
           BetterAuthClient.signIn.passkey({ autoFill: true }, { onSuccess });
         }
+
+        return;
       },
     );
   });

@@ -1,0 +1,38 @@
+import adapter from "@sveltejs/adapter-vercel";
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  kit: {
+    adapter: adapter(),
+
+    version: {
+      pollInterval: 300_000,
+    },
+
+    experimental: {
+      remoteFunctions: true,
+
+      tracing: {
+        server: true,
+      },
+
+      instrumentation: {
+        server: true,
+      },
+    },
+  },
+
+  vitePlugin: {
+    // experimental: { compileModule: true },
+    dynamicCompileOptions: ({ filename }) =>
+      filename.includes("node_modules") ? undefined : { runes: true },
+  },
+
+  compilerOptions: {
+    experimental: {
+      async: true,
+    },
+  },
+};
+
+export default config;

@@ -2,7 +2,9 @@
   import { resolve } from "$app/paths";
   import { AnimalClient } from "$lib/clients/animals.client";
   import AnimalForm from "$lib/components/form/animal/AnimalForm.svelte";
+  import Anchor from "$lib/components/ui/anchor/Anchor.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
+  import { renderComponent } from "$lib/components/ui/data-table";
   import DataTable from "$lib/components/ui/data-table/data-table.svelte";
   import Header from "$lib/components/ui/elements/Header.svelte";
   import Input from "$lib/components/ui/input/input.svelte";
@@ -28,7 +30,11 @@
     column.accessor("name", {
       meta: { label: "Name" },
 
-      cell: ({ row }) => row.original.name ?? `?`,
+      cell: ({ row }) =>
+        renderComponent(Anchor, {
+          href: resolve("/(authed)/animals/[id]", row.original),
+          content: row.original.name ?? `?`,
+        }),
     }),
 
     column.accessor("species", {
@@ -82,6 +88,12 @@
     }}
     actions={(row) => [
       {
+        title: "View animal",
+        icon: "lucide/eye",
+        href: resolve("/(authed)/animals/[id]", row),
+      },
+
+      {
         title: "Edit animal",
         icon: "lucide/pencil",
         href: resolve("/(authed)/animals/[id]/edit", row),
@@ -92,7 +104,9 @@
         icon: "lucide/trash-2",
         variant: "destructive",
         onselect: () =>
-          AnimalClient.delete(row.id, {
+          AnimalClient.delete(row.original.id, {
+            prompt: row.original.name ?? row.original.short_id,
+            suc_msg: "Animal deleted",
             on_success: () => (animals = Arrays.remove(animals, row.id)),
           }),
       },

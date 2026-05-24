@@ -2,6 +2,8 @@
   import { resolve } from "$app/paths";
   import { ShelterClient } from "$lib/clients/shelter.client";
   import ShelterForm from "$lib/components/form/shelter/ShelterForm.svelte";
+  import Anchor from "$lib/components/ui/anchor/Anchor.svelte";
+  import { renderComponent } from "$lib/components/ui/data-table";
   import DataTable from "$lib/components/ui/data-table/data-table.svelte";
   import Header from "$lib/components/ui/elements/Header.svelte";
   import Sheet from "$lib/components/ui/sheet/Sheet.svelte";
@@ -22,7 +24,11 @@
 
     column.accessor("name", {
       meta: { label: "Name" },
-      cell: ({ getValue }) => getValue(),
+      cell: ({ row }) =>
+        renderComponent(Anchor, {
+          href: resolve("/(authed)/shelters/[id]", row.original),
+          content: row.original.name,
+        }),
     }),
 
     column.accessor("address", {
@@ -72,6 +78,12 @@
     }}
     actions={(row) => [
       {
+        title: "View shelter",
+        icon: "lucide/eye",
+        href: resolve("/(authed)/shelters/[id]", row),
+      },
+
+      {
         title: "Edit shelter",
         icon: "lucide/pencil",
         href: resolve("/(authed)/shelters/[id]/edit", row),
@@ -82,7 +94,9 @@
         icon: "lucide/trash-2",
         variant: "destructive",
         onselect: () =>
-          ShelterClient.delete(row.id, {
+          ShelterClient.delete(row.original.id, {
+            prompt: row.original.name,
+            suc_msg: "Shelter deleted",
             on_success: () => (shelters = Arrays.remove(shelters, row.id)),
           }),
       },

@@ -68,6 +68,25 @@ const get_by_id = async (
       }
     }
 
+    case "shelter": {
+      const res = await Repo.query(
+        db.query.shelter.findFirst({
+          columns: { id: true, org_id: true },
+          where: { id: resource_id },
+        }),
+      );
+
+      if (!res.ok) {
+        return res;
+      } else if (!res.data) {
+        return result.err(ERROR.NOT_FOUND);
+      } else if (res.data.org_id !== session.session.org_id) {
+        return result.err(ERROR.FORBIDDEN);
+      } else {
+        return result.suc(res.data);
+      }
+    }
+
     default: {
       Log.error("Unsupported resource kind: " + resource_kind);
 

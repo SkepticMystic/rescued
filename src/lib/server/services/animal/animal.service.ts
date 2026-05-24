@@ -7,6 +7,7 @@ import { result } from "$lib/utils/result.util";
 import { captureException } from "@sentry/sveltekit";
 import { operators } from "drizzle-orm";
 import { ImageService } from "../image/image.service";
+import { ShelterService } from "../shelter/shelter.service";
 
 const log = Log.child({ service: "animal" });
 
@@ -19,6 +20,9 @@ export namespace AnimalService {
       if (!session.session.org_id) {
         return result.err(ERROR.FORBIDDEN);
       }
+
+      const owns = await ShelterService.owns(input.shelter_id, session);
+      if (!owns.ok) return owns;
 
       const { image, ...values } = input;
 
@@ -62,6 +66,11 @@ export namespace AnimalService {
     try {
       if (!session.session.org_id) {
         return result.err(ERROR.FORBIDDEN);
+      }
+
+      if (input.shelter_id) {
+        const owns = await ShelterService.owns(input.shelter_id, session);
+        if (!owns.ok) return owns;
       }
 
       const { image, ...values } = input;

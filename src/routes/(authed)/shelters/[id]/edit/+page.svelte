@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { resolve } from "$app/paths";
-  import AnimalForm from "$lib/components/form/animal/AnimalForm.svelte";
   import UploadImagesForm from "$lib/components/form/image/UploadImagesForm.svelte";
+  import ShelterForm from "$lib/components/form/shelter/ShelterForm.svelte";
   import DeleteImageButton from "$lib/components/image/DeleteImageButton.svelte";
   import Picture from "$lib/components/image/Picture.svelte";
   import VanillaCarousel from "$lib/components/ui/carousel/VanillaCarousel.svelte";
@@ -11,26 +11,35 @@
 
   let { data } = $props();
 
-  let images = $derived(data.animal.images);
+  let images = $derived(data.shelter.images);
 </script>
 
 <article>
   <Header
-    title="Edit animal"
-    back={{ href: resolve("/(authed)/animals") }}
+    title="Edit shelter"
+    back={{ href: resolve("/(authed)/shelters") }}
   />
 
-  <AnimalForm
+  <ShelterForm
     mode="update"
     initial={{
-      ...data.animal,
-      name: data.animal.name ?? "",
-      description: data.animal.description ?? "",
-      date_of_birth: data.animal.date_of_birth
-        ? data.animal.date_of_birth.toISOString().slice(0, 10)
-        : "",
+      ...data.shelter,
+      description: data.shelter.description ?? "",
+      contact_email: data.shelter.contact_email ?? "",
+      contact_phone: data.shelter.contact_phone ?? "",
+      street_number: data.shelter.street_number ?? "",
+      street_name: data.shelter.street_name ?? "",
+      suburb: data.shelter.suburb ?? "",
+      city: data.shelter.city ?? "",
+      province: data.shelter.province ?? "",
+      postal_code: data.shelter.postal_code ?? "",
+      country: data.shelter.country ?? "",
+      location: {
+        x: data.shelter.location.x.toString(),
+        y: data.shelter.location.y.toString(),
+      },
     }}
-    on_success={() => goto(resolve("/(authed)/animals"))}
+    on_success={() => goto(resolve("/(authed)/shelters"))}
   />
 
   <section>
@@ -61,8 +70,8 @@
     {/if}
 
     <UploadImagesForm
-      resource_kind="animal"
-      resource_id={data.animal.id}
+      resource_kind="shelter"
+      resource_id={data.shelter.id}
       after_upload={(results) => {
         if (!results.ok) return;
 

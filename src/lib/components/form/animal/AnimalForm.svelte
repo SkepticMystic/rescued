@@ -1,6 +1,7 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
   import FormErrors from "$lib/components/form/FormErrors.svelte";
+  import ShelterNativeSelect from "$lib/components/selector/ShelterNativeSelect.svelte";
   import Field from "$lib/components/ui/field/Field.svelte";
   import Input from "$lib/components/ui/input/input.svelte";
   import NativeSelect from "$lib/components/ui/native-select/native-select.svelte";
@@ -11,12 +12,16 @@
     create_animal_remote,
     update_animal_remote,
   } from "$lib/remote/animals/animals.remote";
-  import type { Animal, AnimalSchema } from "$lib/server/db/models/animal.model";
+  import type {
+    Animal,
+    AnimalSchema,
+  } from "$lib/server/db/models/animal.model";
   import { FormUtil } from "$lib/utils/form/form.util.svelte";
   import { toast } from "svelte-sonner";
   import FormButton from "../FormButton.svelte";
 
   const CREATE_DEFAULTS = {
+    shelter_id: "",
     name: "",
     species: "dog",
     sex: "unknown",
@@ -72,13 +77,22 @@
   })}
 >
   {#if props.mode === "update"}
-    <input
-      {...update_animal_remote.fields.id.as(
-        "hidden",
-        update_animal_remote.fields.id.value() ?? "",
-      )}
-    />
+    <input {...update_animal_remote.fields.id.as("hidden", props.initial.id)} />
   {/if}
+
+  <Field
+    label="Shelter"
+    field={form.fields.shelter_id}
+  >
+    {#snippet input({ props, field })}
+      <ShelterNativeSelect
+        {...props}
+        {...field?.as("select")}
+        required
+        class="w-full"
+      />
+    {/snippet}
+  </Field>
 
   <Field
     label="Name"

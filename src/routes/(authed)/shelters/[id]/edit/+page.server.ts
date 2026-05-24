@@ -12,22 +12,13 @@ export const load = (async ({ params }) => {
     redirect(302, "/onboarding");
   }
 
-  const animal = await Repo.query(
-    db.query.animal.findFirst({
+  const shelter = await Repo.query(
+    db.query.shelter.findFirst({
       where: {
         id: params.id,
         org_id: session.data.session.activeOrganizationId,
       },
-      columns: {
-        id: true,
-        shelter_id: true,
-        name: true,
-        species: true,
-        sex: true,
-        status: true,
-        date_of_birth: true,
-        description: true,
-      },
+
       with: {
         images: {
           columns: { id: true, url: true, thumbhash: true },
@@ -36,9 +27,9 @@ export const load = (async ({ params }) => {
     }),
   );
 
-  if (!animal.ok || !animal.data) {
-    error(404, "Animal not found");
+  if (!shelter.ok || !shelter.data) {
+    error(404, "Shelter not found");
   }
 
-  return { animal: animal.data };
+  return { shelter: shelter.data };
 }) satisfies PageServerLoad;

@@ -25,4 +25,4 @@ peerDependencyRules:
     vitest: "*"
 
 configDependencies:
-  '@pnpm/pacquet': 0.2.7
+  '@pnpm/pacquet': 0.2.7+sha512-ugYlHJSmvGDode/EmHSuc3vIECZ+fk9F/P5U8SBkE+GiOKx9YDmsYhXl1ObW9dbevfXEOj0iAwxDTQNx7SjW5A==

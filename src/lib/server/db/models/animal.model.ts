@@ -4,6 +4,7 @@ import { z } from "zod";
 import { ANIMALS } from "../../../const/animal.const";
 import { OrganizationTable } from "./auth.model";
 import { Schema } from "./index.schema";
+import { ShelterTable } from "./shelter.model";
 
 export const animal_species_enum = pgEnum("animal_species", ANIMALS.SPECIES.IDS);
 export const animal_sex_enum = pgEnum("animal_sex", ANIMALS.SEX.IDS);
@@ -18,6 +19,9 @@ export const AnimalTable = pgTable(
     org_id: uuid()
       .notNull()
       .references(() => OrganizationTable.id, { onDelete: "cascade" }),
+    shelter_id: uuid()
+      .notNull()
+      .references(() => ShelterTable.id, { onDelete: "cascade" }),
 
     name: varchar({ length: 255 }),
     species: animal_species_enum().notNull(),
@@ -30,6 +34,7 @@ export const AnimalTable = pgTable(
   },
   (table) => [
     index("idx_animal_org_id").on(table["org_id"]),
+    index("idx_animal_shelter_id").on(table["shelter_id"]),
     index("idx_animal_short_id").on(table["short_id"]),
   ],
 );
@@ -37,6 +42,7 @@ export const AnimalTable = pgTable(
 export type Animal = typeof AnimalTable.$inferSelect;
 
 const pick = {
+  shelter_id: true,
   name: true,
   species: true,
   sex: true,
@@ -46,6 +52,7 @@ const pick = {
 } satisfies Partial<Record<keyof Animal, true>>;
 
 const refinements = {
+  shelter_id: z.uuid("Shelter is required"),
   name: z
     .string()
     .trim()

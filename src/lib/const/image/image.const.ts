@@ -9,9 +9,17 @@ export const IMAGES = {
       width: 32,
       height: 32,
     },
+    LIST_MEDIA: {
+      width: 100,
+      height: 100,
+    },
     THUMBNAIL: {
       width: 180,
       height: 180,
+    },
+    THUMBNAIL_LG: {
+      width: 200,
+      height: 200,
     },
     PREVIEW: {
       width: 270,

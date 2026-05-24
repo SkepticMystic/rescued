@@ -35,6 +35,7 @@ export const relations = defineRelations(schema, (r) => ({
   organization: {
     members: r.many.member(),
     invitations: r.many.invitation(),
+    shelters: r.many.shelter(),
   },
   member: {
     organization: r.one.organization({
@@ -80,8 +81,30 @@ export const relations = defineRelations(schema, (r) => ({
       optional: false,
     }),
 
+    shelter: r.one.shelter({
+      from: r.animal.shelter_id,
+      to: r.shelter.id,
+      optional: false,
+    }),
+
     images: r.many.image({
       from: r.animal.id,
+      to: r.image.resource_id,
+    }),
+  },
+
+  // === Shelters ===
+  shelter: {
+    organization: r.one.organization({
+      from: r.shelter.org_id,
+      to: r.organization.id,
+      optional: false,
+    }),
+
+    animals: r.many.animal(),
+
+    images: r.many.image({
+      from: r.shelter.id,
       to: r.image.resource_id,
     }),
   },
@@ -91,6 +114,12 @@ export const relations = defineRelations(schema, (r) => ({
     animal: r.one.animal({
       from: r.image.resource_id,
       to: r.animal.id,
+      optional: true,
+    }),
+
+    shelter: r.one.shelter({
+      from: r.image.resource_id,
+      to: r.shelter.id,
       optional: true,
     }),
   },

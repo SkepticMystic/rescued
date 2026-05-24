@@ -6,6 +6,7 @@
   import type { FileDropZoneProps } from "$lib/components/ui/file-drop-zone/types";
   import Item from "$lib/components/ui/item/Item.svelte";
   import ItemList from "$lib/components/ui/item/ItemList.svelte";
+  import { IMAGES } from "$lib/const/image/image.const";
   import type { RESOURCE } from "$lib/const/resource/resource.const";
   import { upload_images_remote } from "$lib/remote/image/image.remote";
   import { FormUtil } from "$lib/utils/form/form.util.svelte";
@@ -123,8 +124,7 @@
           <img
             src={url}
             alt={item.file.name}
-            width={100}
-            height={100}
+            {...IMAGES.SIZES.LIST_MEDIA}
             class="object-cover"
           />
         {/snippet}

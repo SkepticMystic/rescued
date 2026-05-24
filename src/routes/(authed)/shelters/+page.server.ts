@@ -14,11 +14,9 @@ export const load = (async () => {
     error(403, ERROR.FORBIDDEN);
   }
 
-  const animals = await Repo.query(
-    db.query.animal.findMany({
-      where: {
-        org_id: session.data.session.org_id,
-      },
+  const shelters = await Repo.query(
+    db.query.shelter.findMany({
+      where: { org_id: session.data.session.org_id },
 
       orderBy: { createdAt: "desc" },
 
@@ -26,12 +24,17 @@ export const load = (async () => {
         id: true,
         short_id: true,
         name: true,
-        species: true,
-        status: true,
+        slug: true,
+        address: true,
+        contact_email: true,
         createdAt: true,
+      },
+
+      with: {
+        animals: { columns: { id: true } },
       },
     }),
   ).then((r) => result.unwrap_or(r, []));
 
-  return { animals };
+  return { shelters };
 }) satisfies PageServerLoad;

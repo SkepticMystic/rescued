@@ -1,3 +1,5 @@
+import type { BadgeVariant } from "$lib/components/ui/badge";
+import Badge from "$lib/components/ui/badge/badge.svelte";
 import { renderComponent } from "$lib/components/ui/data-table";
 import Time from "$lib/components/ui/elements/Time.svelte";
 import { getLocalTimeZone } from "@internationalized/date";
@@ -28,20 +30,29 @@ const filter_fns = {
 };
 
 export const CellHelpers = {
-  number: (
-    cell: { getValue: () => number },
-    options?: Intl.NumberFormatOptions,
-  ) => Format.number(cell.getValue(), options),
+  number: (cell: { getValue: () => number }, options?: Intl.NumberFormatOptions) =>
+    Format.number(cell.getValue(), options),
 
   time: (
     cell: { getValue: () => ComponentProps<typeof Time>["date"] },
     props?: Omit<ComponentProps<typeof Time>, "date">,
   ) => renderComponent(Time, { date: cell.getValue(), ...props }),
 
-  label: <T extends string>(
+  label: <T extends string>(cell: { getValue: () => T }, map: Record<T, { label: string }>) =>
+    map[cell.getValue()]?.label ?? cell.getValue(),
+
+  badge: <T extends string>(
     cell: { getValue: () => T },
-    map: Record<T, { label: string }>,
-  ) => map[cell.getValue()]?.label ?? cell.getValue(),
+    map: Record<T, { label: string; variant: BadgeVariant; icon?: string }>,
+  ) => {
+    const data = map[cell.getValue()];
+
+    return renderComponent(Badge, {
+      icon: data?.icon,
+      variant: data?.variant ?? "default",
+      content: data?.label ?? cell.getValue(),
+    });
+  },
 };
 
 export const TanstackTable = {

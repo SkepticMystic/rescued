@@ -71,4 +71,13 @@ export const relations = defineRelations(schema, (r) => ({
 
   // === Tasks ===
   task: {},
+
+  // === Animals ===
+  animal: {
+    organization: r.one.organization({
+      from: r.animal.org_id,
+      to: r.organization.id,
+      optional: false,
+    }),
+  },
 }));

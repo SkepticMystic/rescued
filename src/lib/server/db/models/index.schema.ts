@@ -1,8 +1,20 @@
-import { timestamp, uuid } from "drizzle-orm/pg-core";
+import { timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { nanoid } from "nanoid";
 
 export const Schema = {
   id: () => ({
     id: uuid().primaryKey().defaultRandom(),
+  }),
+
+  short_id: (length = 8) => ({
+    short_id: varchar({ length })
+      .notNull()
+      .$defaultFn(() =>
+        nanoid()
+          .replaceAll(/[-_o0i1l]/gi, "")
+          .slice(0, length)
+          .toUpperCase(),
+      ),
   }),
 
   timestamps: {

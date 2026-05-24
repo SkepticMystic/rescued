@@ -1,3 +1,4 @@
+import * as AnimalModels from "./models/animal.model";
 import * as AuthModels from "./models/auth.model";
 import * as ImageModels from "./models/image.model";
 import * as SubscriptionModels from "./models/subscription.model";
@@ -21,12 +22,13 @@ const {
   ...auth_rest
 } = AuthModels;
 
-const { SubscriptionTable, PaystackTransactionTable, ...subscription_rest } =
-  SubscriptionModels;
+const { SubscriptionTable, PaystackTransactionTable, ...subscription_rest } = SubscriptionModels;
 
 const { ImageTable, ...image_rest } = ImageModels;
 
 const { TaskTable, TaskSchema: _TaskSchema, ...task_rest } = TaskModels;
+
+const { AnimalTable, AnimalSchema: _AnimalSchema, ...animal_rest } = AnimalModels;
 
 export const schema = {
   // Auth
@@ -54,4 +56,8 @@ export const schema = {
   // Task
   task: TaskTable,
   ...task_rest,
+
+  // Animal
+  animal: AnimalTable,
+  ...animal_rest,
 };

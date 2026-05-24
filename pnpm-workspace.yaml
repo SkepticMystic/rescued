@@ -23,3 +23,6 @@ peerDependencyRules:
   allowedVersions:
     vite: "*"
     vitest: "*"
+
+configDependencies:
+  '@pnpm/pacquet': 0.2.7

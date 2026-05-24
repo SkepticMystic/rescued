@@ -1,3 +1,79 @@
+---
+lockfileVersion: '9.0'
+
+importers:
+
+  .:
+    configDependencies:
+      '@pnpm/pacquet':
+        specifier: 0.2.7
+        version: 0.2.7
+
+packages:
+
+  '@pacquet/darwin-arm64@0.2.7':
+    resolution: {integrity: sha512-mCUHdviHix79JfyaVI+Ol9tY4eKwF1gX5qUQJ3QugrOPHBwJehkbuxuRZThw6Vc+Q+d8YS+ttY7tkcKU6XlM4Q==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@pacquet/darwin-x64@0.2.7':
+    resolution: {integrity: sha512-TnnXtOaQS+sTv01lJMS2YN2MqHoI6RGJizuCb+5lBtcDXvE3FvjuqAzAYu1+eU2Um8wATMKicb5coXazd6C+dA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@pacquet/linux-arm64@0.2.7':
+    resolution: {integrity: sha512-5W1wJ9/7XrRgbJEj//1r2nk3aGqN2ecRegVrHa8rhe+A35BD5ZyGB5wXwn0aQ7BPVBlGoaQH6N7zEW6eg+kTjg==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@pacquet/linux-x64@0.2.7':
+    resolution: {integrity: sha512-0/dpQu9gdRGa00TJgfPWb9NR9O1c8FdkhuNkqyvzODGFyDa3xSSM5MkB55m5tb4NKGc2V5vXXdN09QRgKojLrQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@pacquet/win32-arm64@0.2.7':
+    resolution: {integrity: sha512-xkW7ePgHAZAhNKkhysuVaBGj+h/3nQpF2WbPtK2i5JmSjlQ5nPgG7j3yIzrr2AEHIJJ+QfOjxirGfEm4NqlpoA==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@pacquet/win32-x64@0.2.7':
+    resolution: {integrity: sha512-oGHFpYeqpQcOwdjdRsPLVOPD+eq/xDu6qi28uhR2IQ0WamSwzyHwtQyRjNMdn0tQp2ndoRFofRO++ulAHWZ4bg==}
+    cpu: [x64]
+    os: [win32]
+
+  '@pnpm/pacquet@0.2.7':
+    resolution: {integrity: sha512-ugYlHJSmvGDode/EmHSuc3vIECZ+fk9F/P5U8SBkE+GiOKx9YDmsYhXl1ObW9dbevfXEOj0iAwxDTQNx7SjW5A==}
+
+snapshots:
+
+  '@pacquet/darwin-arm64@0.2.7':
+    optional: true
+
+  '@pacquet/darwin-x64@0.2.7':
+    optional: true
+
+  '@pacquet/linux-arm64@0.2.7':
+    optional: true
+
+  '@pacquet/linux-x64@0.2.7':
+    optional: true
+
+  '@pacquet/win32-arm64@0.2.7':
+    optional: true
+
+  '@pacquet/win32-x64@0.2.7':
+    optional: true
+
+  '@pnpm/pacquet@0.2.7':
+    optionalDependencies:
+      '@pacquet/darwin-arm64': 0.2.7
+      '@pacquet/darwin-x64': 0.2.7
+      '@pacquet/linux-arm64': 0.2.7
+      '@pacquet/linux-x64': 0.2.7
+      '@pacquet/win32-arm64': 0.2.7
+      '@pacquet/win32-x64': 0.2.7
+
+---
 lockfileVersion: '9.0'
 
 settings:

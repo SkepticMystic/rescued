@@ -101,26 +101,6 @@ resource "vercel_project_environment_variable" "GOOGLE_CLIENT_ID" {
   sensitive = false
 }
 
-resource "vercel_project_environment_variable" "POCKETID_CLIENT_ID" {
-  team_id    = var.vercel_team_id
-  project_id = vercel_project.app.id
-
-  key       = "POCKETID_CLIENT_ID"
-  value     = var.pocketid_client_id
-  target    = local.all_envs
-  sensitive = false
-}
-
-resource "vercel_project_environment_variable" "POCKETID_BASE_URL" {
-  team_id    = var.vercel_team_id
-  project_id = vercel_project.app.id
-
-  key       = "POCKETID_BASE_URL"
-  value     = var.pocketid_base_url
-  target    = local.all_envs
-  sensitive = false
-}
-
 resource "vercel_project_environment_variable" "EMAIL_FROM" {
   team_id    = var.vercel_team_id
   project_id = vercel_project.app.id
